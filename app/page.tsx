@@ -1,18 +1,28 @@
-// app/page.tsx
-import React from 'react';
-import Head from 'next/head';
+import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
 import styles from './page.module.css';
 
 const Home: React.FC = () => {
+  const [imageUrl, setImageUrl] = useState<string>('');
+
+  useEffect(() => {
+    const fetchRandomImage = async () => {
+      try {
+        const res = await fetch('https://api.unsplash.com/photos/random?client_id=dUxjMyDQfC68wlpl2hIzRcZc_kcq6jq_UTYMnH8NzdQ');
+        const data = await res.json();
+        if (data.length > 0) {
+          setImageUrl(data[0].urls.regular);
+        }
+      } catch (error) {
+        console.error('Error fetching image:', error);
+      }
+    };
+
+    fetchRandomImage();
+  }, []);
+
   return (
     <div className={styles.container}>
-      <Head>
-        <title>Playlist Mood Board</title>
-        <meta name="description" content="Create your own playlist mood board!" />
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
-
       <header className={styles.header}>
         <h1 className={styles.title}>Playlist Mood Board</h1>
         <p className={styles.description}>Discover and curate your favorite playlists based on mood</p>
@@ -21,37 +31,18 @@ const Home: React.FC = () => {
       <main className={styles.main}>
         <section className={styles.playlistGrid}>
           <div className={styles.playlistCard}>
-          <Image
-  src="https://source.unsplash.com/random/300x300"
-  alt="Playlist 1"
-  className={styles.playlistImage}
-  width={300}
-  height={300}
-  unoptimized
-/>
+            {imageUrl ? (
+              <Image
+                src={imageUrl}
+                alt="Random Playlist"
+                width={300}
+                height={300}
+                className={styles.playlistImage}
+              />
+            ) : (
+              <p>Loading image...</p>
+            )}
             <h3 className={styles.playlistTitle}>Chill Vibes</h3>
-          </div>
-          <div className={styles.playlistCard}>
-          <Image
-  src="https://source.unsplash.com/random/300x300"
-  alt="Playlist 1"
-  className={styles.playlistImage}
-  width={300}
-  height={300}
-  unoptimized
-/>
-            <h3 className={styles.playlistTitle}>Workout Beats</h3>
-          </div>
-          <div className={styles.playlistCard}>
-          <Image
-  src="https://source.unsplash.com/random/300x300"
-  alt="Playlist 1"
-  className={styles.playlistImage}
-  width={300}
-  height={300}
-  unoptimized
-/>
-            <h3 className={styles.playlistTitle}>Morning Coffee</h3>
           </div>
           {/* Add more playlists as needed */}
         </section>
