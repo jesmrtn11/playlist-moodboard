@@ -4,29 +4,31 @@ import Image from 'next/image';
 import { signIn, signOut, useSession } from 'next-auth/react';
 import styles from './page.module.css';
 
+interface Playlist {
+  id: string;
+  name: string;
+  images: { url: string }[];
+  external_urls: { spotify: string };
+}
+
 const Home: React.FC = () => {
-  const [imageUrl, setImageUrl] = useState<string>('');
+  const [playlists, setPlaylists] = useState<Playlist[]>([]);
   const { data: session } = useSession();
 
+  // Fetch playlists after successful login
   useEffect(() => {
-    const fetchRandomImage = async () => {
+    const fetchPlaylists = async () => {
       try {
-        const res = await fetch('https://api.unsplash.com/photos/random?client_id=dUxjMyDQfC68wlpl2hIzRcZc_kcq6jq_UTYMnH8NzdQ');
+        const res = await fetch('/api/spotify');
         const data = await res.json();
-
-        if (data?.urls?.regular) {
-          setImageUrl(data.urls.regular); 
-        } else if (Array.isArray(data) && data[0]?.urls?.regular) {
-          setImageUrl(data[0].urls.regular); 
-        }
-
+        setPlaylists(data.items || []);
       } catch (error) {
-        console.error('Error fetching image:', error);
+        console.error('Error fetching playlists:', error);
       }
     };
 
-    fetchRandomImage();
-  }, []);
+    if (session) fetchPlaylists();
+  }, [session]);
 
   return (
     <div className={styles.container}>
@@ -37,30 +39,32 @@ const Home: React.FC = () => {
 
       <main className={styles.main}>
         <section className={styles.playlistGrid}>
-          <div className={styles.playlistCard}>
-            {imageUrl ? (
-              <Image
-                src={imageUrl}
-                alt="Random Playlist"
-                width={300}
-                height={300}
-                className={styles.playlistImage}
-              />
-            ) : (
-              <p>Loading image...</p>
-            )}
-            <h3 className={styles.playlistTitle}>Chill Vibes</h3>
-          </div>
-
-          {/* Spotify Authentication Section */}
+          {/* Spotify Section */}
           <div className={styles.spotifySection}>
             {session ? (
               <>
                 <p>Welcome, {session.user?.name}!</p>
                 <button onClick={() => signOut()}>Sign out</button>
-                {/* Placeholder for Spotify playlists */}
+
+                {/* Display playlists */}
                 <div className={styles.playlistPlaceholder}>
-                  <p>Your Spotify playlists will appear here...</p>
+                  {playlists.map((playlist) => (
+                    <div key={playlist.id} className={styles.playlistCard}>
+                      <a
+                        href={playlist.external_urls.spotify}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        <Image
+                          src={playlist.images[0]?.url || '/fallback-image.jpg'}
+                          alt={playlist.name}
+                          width={150}
+                          height={150}
+                        />
+                        <h3>{playlist.name}</h3>
+                      </a>
+                    </div>
+                  ))}
                 </div>
               </>
             ) : (

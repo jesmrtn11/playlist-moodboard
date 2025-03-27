@@ -1,8 +1,19 @@
-import type { NextConfig } from 'next';
-
-const nextConfig: NextConfig = {
+const nextConfig = {
   images: {
-    domains: ['via.placeholder.com', 'images.unsplash.com'], 
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'i.scdn.co', // Spotify image domain
+      },
+      {
+        protocol: 'https',
+        hostname: 'image-cdn-ak.spotifycdn.com', // Additional Spotify image domain
+      },
+      {
+        protocol: 'https',
+        hostname: 'mosaic.scdn.co', // Mosaic Spotify image domain
+      },
+    ],
   },
 };
 
