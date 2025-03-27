@@ -1,3 +1,4 @@
+'use client';
 import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
 import styles from './page.module.css';
@@ -9,10 +10,16 @@ const Home: React.FC = () => {
     const fetchRandomImage = async () => {
       try {
         const res = await fetch('https://api.unsplash.com/photos/random?client_id=dUxjMyDQfC68wlpl2hIzRcZc_kcq6jq_UTYMnH8NzdQ');
+        console.log('Response:', res);
         const data = await res.json();
-        if (data.length > 0) {
-          setImageUrl(data[0].urls.regular);
+        console.log('Full API response:', data);
+
+        if (data?.urls?.regular) {
+          setImageUrl(data.urls.regular); // Single image response
+        } else if (Array.isArray(data) && data[0]?.urls?.regular) {
+          setImageUrl(data[0].urls.regular); // Multiple images response
         }
+
       } catch (error) {
         console.error('Error fetching image:', error);
       }
