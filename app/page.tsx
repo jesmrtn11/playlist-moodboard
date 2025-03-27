@@ -1,23 +1,23 @@
 'use client';
 import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
+import { signIn, signOut, useSession } from 'next-auth/react';
 import styles from './page.module.css';
 
 const Home: React.FC = () => {
   const [imageUrl, setImageUrl] = useState<string>('');
+  const { data: session } = useSession();
 
   useEffect(() => {
     const fetchRandomImage = async () => {
       try {
         const res = await fetch('https://api.unsplash.com/photos/random?client_id=dUxjMyDQfC68wlpl2hIzRcZc_kcq6jq_UTYMnH8NzdQ');
-        console.log('Response:', res);
         const data = await res.json();
-        console.log('Full API response:', data);
 
         if (data?.urls?.regular) {
-          setImageUrl(data.urls.regular); // Single image response
+          setImageUrl(data.urls.regular); 
         } else if (Array.isArray(data) && data[0]?.urls?.regular) {
-          setImageUrl(data[0].urls.regular); // Multiple images response
+          setImageUrl(data[0].urls.regular); 
         }
 
       } catch (error) {
@@ -51,7 +51,22 @@ const Home: React.FC = () => {
             )}
             <h3 className={styles.playlistTitle}>Chill Vibes</h3>
           </div>
-          {/* Add more playlists as needed */}
+
+          {/* Spotify Authentication Section */}
+          <div className={styles.spotifySection}>
+            {session ? (
+              <>
+                <p>Welcome, {session.user?.name}!</p>
+                <button onClick={() => signOut()}>Sign out</button>
+                {/* Placeholder for Spotify playlists */}
+                <div className={styles.playlistPlaceholder}>
+                  <p>Your Spotify playlists will appear here...</p>
+                </div>
+              </>
+            ) : (
+              <button onClick={() => signIn('spotify')}>Sign in with Spotify</button>
+            )}
+          </div>
         </section>
       </main>
 
