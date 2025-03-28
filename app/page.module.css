@@ -1,62 +1,148 @@
-/* app/page.module.css */
-.container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  min-height: 100vh;
-  text-align: center;
-}
-
+/* Header */
 .header {
-  background-color: #282c34;
-  padding: 2rem;
-  width: 100%;
+  text-align: center;
+  padding: 20px;
+  background-color: #1DB954; 
 }
 
 .title {
-  color: white;
   font-size: 3rem;
+  font-weight: bold;
+  color: #fefefd;
+  margin-bottom: 10px;
 }
 
 .description {
-  color: #61dafb;
-  font-size: 1.5rem;
+  font-size: 1.2rem;
+  color: #fefefd;
 }
 
+/* Main Content */
 .main {
-  padding: 2rem;
   display: flex;
-  justify-content: center;
-  flex-wrap: wrap;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  flex-grow: 1;
 }
 
-.playlistGrid {
+.playlistPlaceholder {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-  gap: 1rem;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); /* Ensure cards are responsive */
+  gap: 20px;
+  width: 100%;
+  max-width: 1200px;
+  margin-top: 20px;
 }
 
 .playlistCard {
-  background-color: #f0f0f0;
-  border-radius: 8px;
-  padding: 1rem;
+  background-color: #282C34; /* Spotify card background */
+  border-radius: 10px;
+  padding: 15px;
   text-align: center;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5); /* Subtle shadow for modern feel */
+  transition: transform 0.3s ease;
+}
+
+.playlistCard:hover {
+  transform: scale(1.05); /* Hover effect */
+}
+
+.playlistLink {
+  text-decoration: none;
+  color: #fefefd;
 }
 
 .playlistImage {
-  width: 100%;
-  height: auto;
   border-radius: 8px;
+  margin-bottom: 15px;
 }
 
 .playlistTitle {
-  margin-top: 1rem;
-  font-size: 1.25rem;
+  font-size: 1.4rem;
+  font-weight: bold;
+  color: #fefefd;
 }
 
+/* Spotify Section */
+.spotifySection {
+  width: 100%;
+  text-align: center;
+  margin-top: 20px;
+}
+
+.spotifySection .button {
+  background-color: #1db954; /* Spotify green */
+  color: #fefefd;
+  padding: 12px 24px;
+  font-size: 1rem;
+  border: none;
+  border-radius: 32px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.spotifySection button:hover {
+  background-color: #1aa34a; /* Darker green on hover */
+}
+
+/* Footer */
 .footer {
-  padding: 1rem;
-  background-color: #282c34;
-  color: white;
+  text-align: center;
+  padding: 20px;
+  background-color: #1a1c20;
+}
+
+.footer p {
+  font-size: 1rem;
+  color: #fefefd;
+}
+
+/* Login Section */
+.loginSection {
+  margin-top: 20px;
+  text-align: center;
+}
+
+.loginSection .button {
+  background-color: #1db954;
+  color: #fefefd;
+  padding: 12px 24px;
+  font-size: 1rem;
+  border: none;
+  border-radius: 32px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.loginSection .button:hover {
+  background-color: #1aa34a;
+}
+
+/* Adjustments for Mobile Devices */
+@media (max-width: 768px) {
+  .playlistGrid {
+    grid-template-columns: 1fr 1fr; /* Two cards per row on smaller screens */
+    gap: 15px;
+  }
+
+  .playlistCard {
+    padding: 10px;
+  }
+
+  .playlistImage {
+    width: 100%;
+    height: auto;
+  }
+}
+
+@media (max-width: 480px) {
+  .playlistGrid {
+    grid-template-columns: 1fr; /* One card per row on very small screens */
+    gap: 10px;
+  }
+
+  .playlistCard {
+    padding: 8px;
+  }
 }

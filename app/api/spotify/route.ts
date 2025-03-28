@@ -3,7 +3,7 @@ import { NextRequest, NextResponse } from 'next/server';
 
 export async function GET(req: NextRequest) {
   const token = await getToken({ req });
-
+    console.log('Token:', token);
   if (!token || !token.accessToken) {
     return NextResponse.json({ error: 'Not authenticated or token missing' }, { status: 401 });
   }
@@ -22,6 +22,7 @@ export async function GET(req: NextRequest) {
     }
 
     const data = await res.json();
+    console.log('Playlists!:', data);
     return NextResponse.json(data);
   } catch (error) {
     console.error('Error fetching playlists:', error);

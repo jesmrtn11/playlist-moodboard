@@ -21,6 +21,7 @@ const Home: React.FC = () => {
       try {
         const res = await fetch('/api/spotify');
         const data = await res.json();
+        console.log('data:', data);
         setPlaylists(data.items || []);
       } catch (error) {
         console.error('Error fetching playlists:', error);
@@ -34,7 +35,7 @@ const Home: React.FC = () => {
     <div className={styles.container}>
       <header className={styles.header}>
         <h1 className={styles.title}>Playlist Mood Board</h1>
-        <p className={styles.description}>Discover and curate your favorite playlists based on mood</p>
+        <p className={styles.description}>Curate your favorite playlists based on your mood</p>
       </header>
 
       <main className={styles.main}>
@@ -43,8 +44,8 @@ const Home: React.FC = () => {
           <div className={styles.spotifySection}>
             {session ? (
               <>
-                <p>Welcome, {session.user?.name}!</p>
-                <button onClick={() => signOut()}>Sign out</button>
+                <p className={styles.welcomeText}>Welcome, {session.user?.name}!</p>
+                <button className={styles.button} onClick={() => signOut()}>Sign out</button>
 
                 {/* Display playlists */}
                 <div className={styles.playlistPlaceholder}>
@@ -54,21 +55,27 @@ const Home: React.FC = () => {
                         href={playlist.external_urls.spotify}
                         target="_blank"
                         rel="noopener noreferrer"
+                        className={styles.playlistLink}
                       >
                         <Image
                           src={playlist.images[0]?.url || '/fallback-image.jpg'}
                           alt={playlist.name}
                           width={150}
                           height={150}
+                          className={styles.playlistImage}
                         />
-                        <h3>{playlist.name}</h3>
+                        <h3 className={styles.playlistTitle}>{playlist.name}</h3>
                       </a>
                     </div>
                   ))}
                 </div>
               </>
             ) : (
-              <button onClick={() => signIn('spotify')}>Sign in with Spotify</button>
+              <div className={styles.loginSection}>
+              <button className={styles.button} onClick={() => signIn('spotify')}>
+                Sign in with Spotify
+              </button>
+              </div>
             )}
           </div>
         </section>
