@@ -13,6 +13,10 @@ const nextConfig = {
         protocol: 'https',
         hostname: 'mosaic.scdn.co', // Mosaic Spotify image domain
       },
+      {
+        protocol: 'https',
+        hostname: 'image-cdn-fa.spotifycdn.com', // Add this Spotify image domain
+      },
     ],
   },
 };

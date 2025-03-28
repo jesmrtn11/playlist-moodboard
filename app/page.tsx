@@ -31,6 +31,8 @@ const Home: React.FC = () => {
     if (session) fetchPlaylists();
   }, [session]);
 
+  console.log('SESSION!!:', session);
+
   return (
     <div className={styles.container}>
       <header className={styles.header}>
@@ -40,14 +42,13 @@ const Home: React.FC = () => {
 
       <main className={styles.main}>
         <section className={styles.playlistGrid}>
-          {/* Spotify Section */}
+          
           <div className={styles.spotifySection}>
             {session ? (
               <>
-                <p className={styles.welcomeText}>Welcome, {session.user?.name}!</p>
+                <p className={styles.welcomeText}>Welcome, {session?.user?.name || 'Guest'}!</p>
                 <button className={styles.button} onClick={() => signOut()}>Sign out</button>
 
-                {/* Display playlists */}
                 <div className={styles.playlistPlaceholder}>
                   {playlists.map((playlist) => (
                     <div key={playlist.id} className={styles.playlistCard}>

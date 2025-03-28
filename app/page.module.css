@@ -1,4 +1,3 @@
-/* Header */
 .header {
   text-align: center;
   padding: 20px;
@@ -17,7 +16,6 @@
   color: #fefefd;
 }
 
-/* Main Content */
 .main {
   display: flex;
   flex-direction: column;
@@ -28,7 +26,7 @@
 
 .playlistPlaceholder {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); /* Ensure cards are responsive */
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); 
   gap: 20px;
   width: 100%;
   max-width: 1200px;
@@ -36,16 +34,18 @@
 }
 
 .playlistCard {
-  background-color: #282C34; /* Spotify card background */
+  background-color: #282C34; 
   border-radius: 10px;
   padding: 15px;
   text-align: center;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5); /* Subtle shadow for modern feel */
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5); 
   transition: transform 0.3s ease;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .playlistCard:hover {
-  transform: scale(1.05); /* Hover effect */
+  transform: scale(1.05);
 }
 
 .playlistLink {
@@ -64,7 +64,6 @@
   color: #fefefd;
 }
 
-/* Spotify Section */
 .spotifySection {
   width: 100%;
   text-align: center;
@@ -72,7 +71,7 @@
 }
 
 .spotifySection .button {
-  background-color: #1db954; /* Spotify green */
+  background-color: #1db954; 
   color: #fefefd;
   padding: 12px 24px;
   font-size: 1rem;
@@ -80,13 +79,13 @@
   border-radius: 32px;
   cursor: pointer;
   transition: background-color 0.3s ease;
+  margin-top: 10px;
 }
 
 .spotifySection button:hover {
-  background-color: #1aa34a; /* Darker green on hover */
+  background-color: #1aa34a;
 }
 
-/* Footer */
 .footer {
   text-align: center;
   padding: 20px;
@@ -98,7 +97,6 @@
   color: #fefefd;
 }
 
-/* Login Section */
 .loginSection {
   margin-top: 20px;
   text-align: center;
@@ -113,16 +111,16 @@
   border-radius: 32px;
   cursor: pointer;
   transition: background-color 0.3s ease;
+  margin-top: 10px;
 }
 
 .loginSection .button:hover {
   background-color: #1aa34a;
 }
 
-/* Adjustments for Mobile Devices */
 @media (max-width: 768px) {
   .playlistGrid {
-    grid-template-columns: 1fr 1fr; /* Two cards per row on smaller screens */
+    grid-template-columns: 1fr 1fr; 
     gap: 15px;
   }
 
@@ -138,7 +136,7 @@
 
 @media (max-width: 480px) {
   .playlistGrid {
-    grid-template-columns: 1fr; /* One card per row on very small screens */
+    grid-template-columns: 1fr;
     gap: 10px;
   }
 

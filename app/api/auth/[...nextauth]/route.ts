@@ -7,6 +7,7 @@ interface CustomJWT extends JWT {
   refreshToken: string;
   accessTokenExpires?: number;
   error?: 'RefreshAccessTokenError' | null; // Updated type for stricter control
+  name?: string; 
 }
 
 // Custom session type to ensure correct type for accessToken and refreshToken
@@ -73,10 +74,18 @@ const handler = NextAuth({
       console.log('Current token state!!!!!!:', customToken);
       // Check if account is available (on sign-in)
       if (account) {
+        const userProfileResponse = await fetch('https://api.spotify.com/v1/me', {
+          headers: {
+            Authorization: `Bearer ${account.access_token}`,
+          },
+        });
+    
+        const userProfile = await userProfileResponse.json();
         return {
           accessToken: account.access_token,
           refreshToken: account.refresh_token || token.refreshToken || '', // Ensure refreshToken is preserved
           accessTokenExpires: Date.now() + (account.expires_in as number) * 1000,
+          name: userProfile.display_name,
         };
       }
 
@@ -91,7 +100,9 @@ const handler = NextAuth({
 
     async session({ session, token }) {
       const customToken = token as unknown as CustomJWT;
-      
+
+      session.user = session.user || {};
+      session.user.name = customToken.name || ''; // Correctly assign the fetched username
       session.accessToken = customToken.accessToken;
       session.refreshToken = customToken.refreshToken || '';
       
